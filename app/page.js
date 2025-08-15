@@ -1,7 +1,7 @@
-import Image from "next/image";
+import Navigate from "./_components/Navigate";
 
 export default function Home() {
   return (
-    <h2>Hello Jihirsh!</h2>
+    <Navigate />
   );
 }
