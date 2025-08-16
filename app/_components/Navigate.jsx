@@ -1,7 +1,15 @@
 import React from "react";
 import { Inika } from "next/font/google";
-import { CircleUserRound } from "lucide-react";
+import {
+  ArrowRight,
+  CircleUserRound,
+  Heart,
+  Shield,
+  Users,
+} from "lucide-react";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 const inikaFont = Inika({
   subsets: ["latin"],
@@ -9,6 +17,26 @@ const inikaFont = Inika({
 });
 
 const navbar1 = ["Home", "Safety Map", "App", "Period Tracker", "Blogs"];
+const cardDetails = [
+  {
+    title: "Safety First",
+    description:
+      "Real-time safety alerts, emergency contacts, and location sharing for peace of mind.",
+    icon: Shield,
+  },
+  {
+    title: "Health & Wellness",
+    description:
+      "Period tracking, health reminders, and wellness resources tailored for women.",
+    icon: Heart,
+  },
+  {
+    title: "Community Support",
+    description:
+      "Connect with a supportive community of women who understand and uplift each other.",
+    icon: Users,
+  },
+];
 
 function Navigate() {
   return (
@@ -43,7 +71,37 @@ function Navigate() {
           </p>
           <p className="mr-133 text-2xl">you matter.</p>
         </div>
-        
+
+        {/* call to action buttons */}
+        <div className="p-6 flex gap-10 ml-200">
+          <Button className="text-lg w-56 h-12">
+            Start your Journey <ArrowRight />
+          </Button>
+          <Button variant="outline" className="text-lg w-36 h-12">
+            Learn More
+          </Button>
+        </div>
+      </div>
+
+      {/* cards */}
+      <div className="ml-105 p-6 flex justify-center gap-10">
+        {cardDetails.map((card, index) => (
+          <Card key={index} className="text-center flex items-center w-61">
+            <CardContent className="flex-col items-center">
+              <div className="pb-4 flex items-center justify-center">
+                <button className="flex items-center gap-2 bg-black text-white p-2.5 rounded-lg">
+                  <card.icon className="h-6 w-6" />
+                </button>
+              </div>
+              <p className={`p-1 text-xl ${inikaFont.className}`}>
+                {card.title}
+              </p>
+              <p className={`opacity-75 text-sm ${inikaFont.className}`}>
+                {card.description}
+              </p>
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </div>
   );
