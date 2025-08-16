@@ -14,8 +14,8 @@ function Navigate() {
   return (
     <div className="w-full h-screen bg-linear-to-br from-white-top to-white-bottom to-60%">
       <div className=" flex justify-between p-10 px-20">
-        <h2 className={`text-2xl ${inikaFont.className}`}>Rakshini</h2>
-        <div className={`flex gap-15 ${inikaFont.className}`}>
+        <h2 className={`text-3xl ${inikaFont.className}`}>Rakshini</h2>
+        <div className={`text-lg flex items-end gap-15 ${inikaFont.className}`}>
           {navbar1.map((item, index) => (
             <h3 key={index}>{item}</h3>
           ))}
@@ -28,11 +28,21 @@ function Navigate() {
           width={456}
           height={685}
           alt="Picture of woman"
-          className="opacity-60"
+          className="opacity-40"
         />
       </div>
-      <div className={`max-w-150 text-7xl ${inikaFont.className}`}>
-        <h1 className="flex-wrap text-center">ECHOES ARE NEVER SILENT</h1>
+      <div className={`p-6 text-right ${inikaFont.className}`}>
+        <h1 className="mr-102 text-echoes">ECHOES ARE</h1>
+        <h1 className="mr-83 text-silent font-medium">NEVER SILENT</h1>
+        <div className="p-6">
+          <p className="mr-60 text-2xl">
+            Empowering women with tools, community, and resources to thrive
+          </p>
+          <p className="mr-65 text-2xl">
+            safely in today's world. Your voice matters, your safety matters,
+          </p>
+          <p className="mr-135 text-2xl">you matter.</p>
+        </div>
       </div>
     </div>
   );

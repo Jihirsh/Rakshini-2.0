@@ -11,7 +11,10 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --color-white-top: #F0DADF;
-  --color-white-bottom: #FFF5F7; 
+  --color-white-bottom: #FFF5F7;
+
+  --text-echoes: 4.6rem;
+  --text-silent: 5rem;
 }
 
 @media (prefers-color-scheme: dark) {
