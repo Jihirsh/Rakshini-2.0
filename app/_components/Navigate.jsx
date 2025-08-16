@@ -10,13 +10,21 @@ import {
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import Link from "next/link";
 
 const inikaFont = Inika({
   subsets: ["latin"],
   weight: "400",
 });
 
-const navbar1 = ["Home", "Safety Map", "App", "Period Tracker", "Blogs"];
+const navbar1 = [
+  { name: "Home", href: "/" },
+  { name: "Safety Map", href: "/safety-map" },
+  { name: "App", href: "/app" },
+  { name: "Period Tracker", href: "/period-tracker" },
+  { name: "Blogs", href: "/blogs" },
+];
+
 const cardDetails = [
   {
     title: "Safety First",
@@ -42,13 +50,26 @@ function Navigate() {
   return (
     <div className="w-full h-screen bg-linear-to-br from-white-top to-white-bottom to-60%">
       <div className=" flex justify-between p-10 px-20">
-        <h2 className={`text-3xl ${inikaFont.className}`}>Rakshini</h2>
+        <Link href="/">
+          <h2
+            className={`text-3xl ${inikaFont.className} text-transparent bg-clip-text bg-gradient-to-r from-primary-one to-primary-two`}
+          >
+            Rakshini
+          </h2>
+        </Link>
         <div className={`text-lg flex items-end gap-15 ${inikaFont.className}`}>
           {navbar1.map((item, index) => (
-            <h3 key={index}>{item}</h3>
+            <Link key={index} href={item.href}>
+              <h3 className="hover:text-primary-one cursor-pointer mx-4 hover:scale-115 transition-transform">
+                {item.name}
+              </h3>
+            </Link>
           ))}
         </div>
-        <CircleUserRound size={32} />
+        <CircleUserRound
+          size={32}
+          // className="text-transparent bg-clip-text bg-gradient-to-r from-primary-one to-primary-two"
+        />
       </div>
       <div className="px-20 absolute bottom-0">
         <Image
@@ -61,7 +82,9 @@ function Navigate() {
       </div>
       <div className={`p-6 text-right ${inikaFont.className}`}>
         <h1 className="mr-102 text-echoes">ECHOES ARE</h1>
-        <h1 className="mr-83 text-silent font-medium">NEVER SILENT</h1>
+        <h1 className="mr-85 text-silent font-medium text-transparent bg-clip-text bg-linear-to-bl from-primary-one to-primary-two">
+          NEVER SILENT
+        </h1>
         <div className="p-5">
           <p className="mr-56 text-2xl">
             Empowering women with tools, community, and resources to thrive
@@ -74,22 +97,32 @@ function Navigate() {
 
         {/* call to action buttons */}
         <div className="p-6 flex gap-10 ml-200">
-          <Button className="text-lg w-56 h-12">
-            Start your Journey <ArrowRight />
-          </Button>
-          <Button variant="outline" className="text-lg w-36 h-12">
-            Learn More
-          </Button>
+          <Link href="/sign-up">
+            <Button className="text-lg w-56 h-12 bg-gradient-to-r from-primary-one to-primary-two cursor-pointer hover:scale-105 transition-transform">
+              Start your Journey <ArrowRight />
+            </Button>
+          </Link>
+          <Link href="/blogs">
+            <Button
+              variant="outline"
+              className="text-lg w-36 h-12 border-primary-one text-primary-one cursor-pointer hover:scale-105 transition-transform hover:text-transparent bg-clip-text bg-linear-to-r from-primary-one to-primary-two"
+            >
+              Learn More
+            </Button>
+          </Link>
         </div>
       </div>
 
       {/* cards */}
       <div className="ml-105 p-6 flex justify-center gap-10">
         {cardDetails.map((card, index) => (
-          <Card key={index} className="text-center flex items-center w-61">
+          <Card
+            key={index}
+            className="text-center flex items-center w-61 cursor-pointer hover:scale-105 transition-transform"
+          >
             <CardContent className="flex-col items-center">
               <div className="pb-4 flex items-center justify-center">
-                <button className="flex items-center gap-2 bg-black text-white p-2.5 rounded-lg">
+                <button className="flex items-center gap-2 text-white p-2.5 rounded-lg bg-linear-to-br from-primary-one to-primary-two">
                   <card.icon className="h-6 w-6" />
                 </button>
               </div>
