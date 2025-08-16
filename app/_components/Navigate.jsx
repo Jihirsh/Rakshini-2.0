@@ -34,15 +34,16 @@ function Navigate() {
       <div className={`p-6 text-right ${inikaFont.className}`}>
         <h1 className="mr-102 text-echoes">ECHOES ARE</h1>
         <h1 className="mr-83 text-silent font-medium">NEVER SILENT</h1>
-        <div className="p-6">
-          <p className="mr-60 text-2xl">
+        <div className="p-5">
+          <p className="mr-56 text-2xl">
             Empowering women with tools, community, and resources to thrive
           </p>
-          <p className="mr-65 text-2xl">
+          <p className="mr-62 text-2xl">
             safely in today's world. Your voice matters, your safety matters,
           </p>
-          <p className="mr-135 text-2xl">you matter.</p>
+          <p className="mr-133 text-2xl">you matter.</p>
         </div>
+        
       </div>
     </div>
   );
