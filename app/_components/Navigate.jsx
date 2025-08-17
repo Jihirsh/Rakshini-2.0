@@ -48,8 +48,8 @@ const cardDetails = [
 
 function Navigate() {
   return (
-    <div className="w-full h-screen bg-linear-to-br from-white-top to-white-bottom to-60%">
-      <div className=" flex justify-between p-10 px-20">
+    <div className="w-full h-screen">
+      <div className="flex justify-between p-10 px-20">
         <Link href="/">
           <h2
             className={`text-3xl ${inikaFont.className} text-transparent bg-clip-text bg-gradient-to-r from-primary-one to-primary-two`}
@@ -118,7 +118,7 @@ function Navigate() {
         {cardDetails.map((card, index) => (
           <Card
             key={index}
-            className="text-center flex items-center w-61 cursor-pointer hover:scale-105 transition-transform"
+            className="text-center flex items-center w-61 hover:scale-105 transition-transform"
           >
             <CardContent className="flex-col items-center">
               <div className="pb-4 flex items-center justify-center">
