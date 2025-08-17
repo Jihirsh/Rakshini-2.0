@@ -142,7 +142,7 @@ const AppDownload = () => {
             <div className="flex flex-col sm:flex-row gap-8 justify-center">
               <Button
                 size="lg"
-                className="gradient-primary text-white shadow-soft cursor-pointer"
+                className="gradient-primary text-white shadow-soft cursor-pointer hover:scale-105 transition-transform"
               >
                 <Image
                   src="/playwhite.png"
@@ -154,7 +154,7 @@ const AppDownload = () => {
               </Button>
               <Button
                 size="lg"
-                className="gradient-primary text-white shadow-soft cursor-pointer"
+                className="gradient-primary text-white shadow-soft cursor-pointer hover:scale-105 transition-transform"
               >
                 <Image
                   src="/appwhite.png"
