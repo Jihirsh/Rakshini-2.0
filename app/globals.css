@@ -11,8 +11,10 @@
   --font-mono: var(--font-geist-mono);
   --color-white-top: #F0DADF;
   --color-white-bottom: #FFF5F7;
-  --color-primary-one: #EE3B69;
-  --color-primary-two: #F18D5B;
+  --color-primary-one: #EE3B69;  /* #ee2b6c   old-#EE3B69 */
+  --color-primary-two: #F18D5B;  /* #f2995a   old-#F18D5B */
+  --color-primary-soft: #eec4d2; /* soft pink */
+  --color-primary-light: #f6eef1; /* very light pink */
 
   --text-echoes: 4.6rem;
   --text-silent: 5rem;
@@ -66,7 +68,7 @@
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.208 0.042 265.755);
   --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.554 0.046 257.417);
+  --muted-foreground: oklch(68.795% 0.03863 257.443);
   --accent: oklch(0.968 0.007 247.896);
   --accent-foreground: oklch(0.208 0.042 265.755);
   --destructive: oklch(0.577 0.245 27.325);
@@ -86,6 +88,38 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+
+
+  /* Rakshini Colors - Light Theme */
+  --rakshini-background: #FFFFFF;
+  --rakshini-foreground: #212126;
+  --rakshini-card: #FFFFFF;
+  --rakshini-card-foreground: #212126;
+  --rakshini-popover: #FFFFFF;
+  --rakshini-popover-foreground: #212126;
+  --rakshini-primary: #F43B86;
+  --rakshini-primary-foreground: #FFFFFF;
+  --rakshini-primary-soft: #F5A3C5;
+  --rakshini-primary-light: #F9D6E4;
+  --rakshini-secondary: #FF9A66;
+  --rakshini-secondary-foreground: #FFFFFF;
+  --rakshini-accent: #FFE57A;
+  --rakshini-accent-foreground: #212126;
+  --rakshini-muted: #F7EAF2;
+  --rakshini-muted-foreground: #828997;
+  --rakshini-destructive: #E53E3E;
+  --rakshini-destructive-foreground: #FFFFFF;
+  --rakshini-border: #F0D9E6;
+  --rakshini-input: #F9D6E4;
+  --rakshini-ring: #F43B86;
+  --rakshini-sidebar-background: #FAFAFA;
+  --rakshini-sidebar-foreground: #3F3D56;
+  --rakshini-sidebar-primary: #1A1A2E;
+  --rakshini-sidebar-primary-foreground: #FAFAFA;
+  --rakshini-sidebar-accent: #F5F6F5;
+  --rakshini-sidebar-accent-foreground: #1A1A2E;
+  --rakshini-sidebar-border: #E7E8F0;
+  --rakshini-sidebar-ring: #2F80ED;
 }
 
 .dark {
@@ -120,6 +154,36 @@
   --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.551 0.027 264.364);
+
+
+  /* Rakshini Colors - Dark Theme */
+  --rakshini-background: #0C1226;
+  --rakshini-foreground: #F5F8FF;
+  --rakshini-card: #0C1226;
+  --rakshini-card-foreground: #F5F8FF;
+  --rakshini-popover: #0C1226;
+  --rakshini-popover-foreground: #F5F8FF;
+  --rakshini-primary: #F5F8FF;
+  --rakshini-primary-foreground: #1D2536;
+  --rakshini-secondary: #2B364B;
+  --rakshini-secondary-foreground: #F5F8FF;
+  --rakshini-muted: #2B364B;
+  --rakshini-muted-foreground: #A5AAB8;
+  --rakshini-accent: #2B364B;
+  --rakshini-accent-foreground: #F5F8FF;
+  --rakshini-destructive: #611F1F;
+  --rakshini-destructive-foreground: #F5F8FF;
+  --rakshini-border: #2B364B;
+  --rakshini-input: #2B364B;
+  --rakshini-ring: #A2BFFF;
+  --rakshini-sidebar-background: #1A1A2E;
+  --rakshini-sidebar-foreground: #F5F6F5;
+  --rakshini-sidebar-primary: #3C88F2;
+  --rakshini-sidebar-primary-foreground: #FFFFFF;
+  --rakshini-sidebar-accent: #27272B;
+  --rakshini-sidebar-accent-foreground: #F5F6F5;
+  --rakshini-sidebar-border: #27272B;
+  --rakshini-sidebar-ring: #2F80ED;
 }
 
 @layer base {
@@ -131,3 +195,31 @@
   }
 }
 /* added by SHADCN ends */
+
+
+
+/* Rakshini Utility Classes */
+.gradient-primary {
+  background: linear-gradient(135deg, var(--rakshini-primary), var(--rakshini-secondary));
+}
+.gradient-soft {
+  background: linear-gradient(135deg, var(--rakshini-primary-light), var(--rakshini-primary-soft));
+}
+.gradient-hero {
+  background: linear-gradient(135deg, var(--rakshini-primary-light), var(--rakshini-background));
+}
+.shadow-soft {
+  box-shadow: 0 4px 20px -4px rgba(244, 59, 134, 0.1);
+}
+.shadow-elegant {
+  box-shadow: 0 8px 30px -8px rgba(244, 59, 134, 0.2);
+}
+.shadow-bold {
+  box-shadow: 0 12px 40px -8px rgba(244, 59, 134, 0.3);
+}
+.text-gradient {
+  background: linear-gradient(135deg, var(--rakshini-primary), var(--rakshini-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}

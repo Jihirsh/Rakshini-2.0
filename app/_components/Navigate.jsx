@@ -20,7 +20,7 @@ const inikaFont = Inika({
 const navbar1 = [
   { name: "Home", href: "/" },
   { name: "Safety Map", href: "/safety-map" },
-  { name: "App", href: "/app" },
+  { name: "App", href: "/application" },
   { name: "Period Tracker", href: "/period-tracker" },
   { name: "Blogs", href: "/blogs" },
 ];
