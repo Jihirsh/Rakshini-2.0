@@ -90,13 +90,13 @@ function Navigate() {
           NEVER SILENT
         </h1>
         <div className="p-5">
-          <p className="mr-56 text-2xl opacity-70">
+          <p className="mr-56 text-2xl text-gray-500">
             Empowering women with tools, community, and resources to thrive
           </p>
-          <p className="mr-62 text-2xl opacity-70">
+          <p className="mr-62 text-2xl text-gray-500">
             safely in today's world. Your voice matters, your safety matters,
           </p>
-          <p className="mr-133 text-2xl opacity-70">you matter.</p>
+          <p className="mr-133 text-2xl text-gray-500">you matter.</p>
         </div>
 
         {/* call to action buttons */}
