@@ -3,6 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, User, CircleUserRound } from "lucide-react";
 import Link from "next/link";
+import AuthModal from "./AuthModal";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -40,7 +41,9 @@ const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
-            <CircleUserRound className="w-8 h-8" />
+            <AuthModal>
+              <CircleUserRound className="w-8 h-8 cursor-pointer" />
+            </AuthModal>
           </div>
 
           {/* mobile menu button */}

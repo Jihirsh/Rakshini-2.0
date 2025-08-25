@@ -11,6 +11,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
+import AuthModal from "./AuthModal";
 
 const inikaFont = Inika({
   subsets: ["latin"],
@@ -66,10 +67,13 @@ function Navigate() {
             </Link>
           ))}
         </div>
-        <CircleUserRound
-          size={32}
-          // className="text-transparent bg-clip-text bg-gradient-to-r from-primary-one to-primary-two"
-        />
+        <AuthModal>
+          <CircleUserRound
+            size={32}
+            className="cursor-pointer"
+            // className="text-transparent bg-clip-text bg-gradient-to-r from-primary-one to-primary-two"
+          />
+        </AuthModal>
       </div>
       <div className="px-20 absolute bottom-0">
         <Image
@@ -97,11 +101,11 @@ function Navigate() {
 
         {/* call to action buttons */}
         <div className="p-6 flex gap-10 ml-200">
-          <Link href="/sign-up">
+          <AuthModal>
             <Button className="text-lg w-56 h-12 bg-gradient-to-r from-primary-one to-primary-two cursor-pointer hover:scale-105 transition-transform">
               Start your Journey <ArrowRight />
             </Button>
-          </Link>
+          </AuthModal>
           <Link href="/blogs">
             <Button
               variant="outline"
