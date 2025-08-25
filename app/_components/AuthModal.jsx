@@ -14,7 +14,6 @@ import { Separator } from "@/components/ui/separator";
 import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-
 const AuthModal = ({ children }) => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -128,7 +127,7 @@ const AuthModal = ({ children }) => {
 
           <Button
             type="submit"
-            className="w-full gradient-primary text-white shadow-soft hover:shadow-elegant transition-all duration-300"
+            className="w-full mt-2 gradient-primary text-white shadow-soft hover:shadow-elegant transition-all duration-300 cursor-pointer"
           >
             {isSignUp ? "Create Account" : "Sign In"}
           </Button>
