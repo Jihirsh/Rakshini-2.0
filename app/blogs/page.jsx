@@ -5,6 +5,7 @@ import { ArrowRight, Search } from "lucide-react";
 import { useState } from "react";
 import Footer from "../_components/Footer";
 import Navbar from "../_components/Navbar";
+import Link from "next/link";
 
 const Community = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -20,6 +21,7 @@ const Community = () => {
       readTime: "5 min read",
       category: "Technology",
       image: "/blog-tech-women.jpg",
+      slug: "breaking-the-glass-ceiling-women-in-tech",
     },
     {
       title: "The Power of Female Leadership",
@@ -30,6 +32,7 @@ const Community = () => {
       readTime: "7 min read",
       category: "Leadership",
       image: "/blog-leadership.jpg",
+      slug: "the-power-of-female-leadership",
     },
     {
       title: "Women's Health: Taking Control",
@@ -40,6 +43,7 @@ const Community = () => {
       readTime: "6 min read",
       category: "Health",
       image: "/blog-health.jpg",
+      slug: "womens-health-taking-control",
     },
     {
       title: "Financial Independence for Women",
@@ -50,6 +54,7 @@ const Community = () => {
       readTime: "8 min read",
       category: "Finance",
       image: "/blog-finance.jpg",
+      slug: "financial-independence-for-women",
     },
     {
       title: "Supporting Working Mothers",
@@ -60,6 +65,7 @@ const Community = () => {
       readTime: "5 min read",
       category: "Workplace",
       image: "/blog-workplace.jpg",
+      slug: "supporting-working-mothers",
     },
     {
       title: "Women in Entrepreneurship",
@@ -70,6 +76,7 @@ const Community = () => {
       readTime: "9 min read",
       category: "Business",
       image: "/blog-business.jpg",
+      slug: "women-in-entrepreneurship",
     },
     {
       title: "Self-Care Essentials for Busy Women",
@@ -80,6 +87,7 @@ const Community = () => {
       readTime: "4 min read",
       category: "Wellness",
       image: "/blog-wellness.jpg",
+      slug: "self-care-essentials-for-busy-women",
     },
     {
       title: "Women's Rights: Progress and Challenges",
@@ -90,6 +98,7 @@ const Community = () => {
       readTime: "10 min read",
       category: "Rights",
       image: "/blog-rights.jpg",
+      slug: "womens-rights-progress-and-challenges",
     },
     {
       title: "Balancing Career and Motherhood",
@@ -100,6 +109,7 @@ const Community = () => {
       readTime: "6 min read",
       category: "Lifestyle",
       image: "/blog-lifestyle.jpg",
+      slug: "balancing-career-and-motherhood",
     },
   ];
 
@@ -203,56 +213,61 @@ const Community = () => {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 {filteredPosts.map((post, index) => (
-                  <article key={index} className="group cursor-pointer">
-                    <div className="space-y-6">
-                      {/* Image */}
-                      <div className="overflow-hidden rounded-2xl aspect-[4/3] bg-muted">
-                        <img
-                          src={post.image}
-                          alt={post.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                        />
-                      </div>
-
-                      {/* Content */}
-                      <div className="space-y-4">
-                        {/* Category and Read Time */}
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium text-primary uppercase tracking-wider">
-                            {post.category}
-                          </span>
-                          <span className="text-sm text-muted-foreground">
-                            {post.readTime}
-                          </span>
+                  <Link
+                    key={index}
+                    href={`/blogs/${post.slug || "sample-post"}`}
+                  >
+                    <article className="group cursor-pointer">
+                      <div className="space-y-6">
+                        {/* Image */}
+                        <div className="overflow-hidden rounded-2xl aspect-[4/3] bg-muted">
+                          <img
+                            src={post.image}
+                            alt={post.title}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
                         </div>
 
-                        {/* Title */}
-                        <h3 className="text-xl font-bold text-foreground group-hover:text-primary transition-colors duration-200 leading-tight">
-                          {post.title}
-                        </h3>
-
-                        {/* Excerpt */}
-                        <p className="text-muted-foreground leading-relaxed text-sm line-clamp-3">
-                          {post.excerpt}
-                        </p>
-
-                        {/* Author and Date */}
-                        <div className="flex items-center justify-between pt-4 border-t border-border/50">
-                          <div>
-                            <p className="text-sm font-medium text-foreground">
-                              {post.author}
-                            </p>
-                            <p className="text-xs text-muted-foreground">
-                              {post.date}
-                            </p>
+                        {/* Content */}
+                        <div className="space-y-4">
+                          {/* Category and Read Time */}
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm font-medium text-primary-one uppercase tracking-wider">
+                              {post.category}
+                            </span>
+                            <span className="text-sm text-muted-foreground">
+                              {post.readTime}
+                            </span>
                           </div>
-                          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                            <ArrowRight className="w-4 h-4 text-primary-one" />
+
+                          {/* Title */}
+                          <h3 className="text-xl font-bold text-foreground group-hover:text-primary-one transition-colors duration-200 leading-tight">
+                            {post.title}
+                          </h3>
+
+                          {/* Excerpt */}
+                          <p className="text-muted-foreground leading-relaxed text-sm line-clamp-3">
+                            {post.excerpt}
+                          </p>
+
+                          {/* Author and Date */}
+                          <div className="flex items-center justify-between pt-4 border-t border-border/50">
+                            <div>
+                              <p className="text-sm font-medium text-foreground">
+                                {post.author}
+                              </p>
+                              <p className="text-xs text-muted-foreground">
+                                {post.date}
+                              </p>
+                            </div>
+                            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                              <ArrowRight className="w-4 h-4 text-primary-one" />
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </article>
+                    </article>
+                  </Link>
                 ))}
               </div>
 

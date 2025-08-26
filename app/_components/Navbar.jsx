@@ -42,7 +42,7 @@ const Navbar = () => {
 
           <div className="hidden md:flex items-center space-x-4">
             <AuthModal>
-              <CircleUserRound className="w-8 h-8 cursor-pointer" />
+              <CircleUserRound className="w-8 h-8 cursor-pointer text-primary-one" />
             </AuthModal>
           </div>
 

@@ -70,7 +70,7 @@ function Navigate() {
         <AuthModal>
           <CircleUserRound
             size={32}
-            className="cursor-pointer"
+            className="text-primary-one cursor-pointer"
             // className="text-transparent bg-clip-text bg-gradient-to-r from-primary-one to-primary-two"
           />
         </AuthModal>
