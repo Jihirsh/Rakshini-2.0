@@ -1,11 +1,20 @@
 "use client";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, User, CircleUserRound } from "lucide-react";
+import { Menu, X, User, CircleUserRound, LogOut } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import AuthModal from "./AuthModal";
+import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
+  const { user, signOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
@@ -41,9 +50,30 @@ const Navbar = () => {
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
-            <AuthModal>
-              <CircleUserRound className="w-8 h-8 cursor-pointer text-primary-one" />
-            </AuthModal>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <CircleUserRound className="w-8 h-8 cursor-pointer text-primary-one" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuItem asChild>
+                    <Link href="/profile" className="flex items-center">
+                      <User className="w-4 h-4 mr-2" />
+                      My Profile
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={signOut}>
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <AuthModal>
+                <CircleUserRound className="w-8 h-8 cursor-pointer text-primary-one" />
+              </AuthModal>
+            )}
           </div>
 
           {/* mobile menu button */}

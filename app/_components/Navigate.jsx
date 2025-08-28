@@ -1,3 +1,4 @@
+"use client"; /* Make this server side in future for better seo */
 import React from "react";
 import { Inika } from "next/font/google";
 import {
@@ -6,12 +7,22 @@ import {
   Heart,
   Shield,
   Users,
+  LogOut,
+  User,
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import AuthModal from "./AuthModal";
+import { useAuth } from "@/contexts/AuthContext";
 
 const inikaFont = Inika({
   subsets: ["latin"],
@@ -48,6 +59,8 @@ const cardDetails = [
 ];
 
 function Navigate() {
+  const { user, signOut } = useAuth();
+
   return (
     <div className="w-full h-screen">
       <div className="flex justify-between p-10 px-20">
@@ -67,13 +80,33 @@ function Navigate() {
             </Link>
           ))}
         </div>
-        <AuthModal>
-          <CircleUserRound
-            size={32}
-            className="text-primary-one cursor-pointer"
-            // className="text-transparent bg-clip-text bg-gradient-to-r from-primary-one to-primary-two"
-          />
-        </AuthModal>
+        <div className="hidden md:flex items-center space-x-4">
+          {user ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <CircleUserRound className="w-8 h-8 cursor-pointer text-primary-one" />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem asChild>
+                  <Link href="/profile" className="flex items-center">
+                    <User className="w-4 h-4 mr-2 text-black" />
+                    My Profile
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={signOut}>
+                  <LogOut className="w-4 h-4 mr-2 text-black" />
+                  Sign Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <AuthModal>
+              <CircleUserRound className="w-8 h-8 cursor-pointer text-primary-one" />
+              {/* className="text-transparent bg-clip-text bg-gradient-to-r from-primary-one to-primary-two" */}
+            </AuthModal>
+          )}
+        </div>
       </div>
       <div className="px-20 absolute bottom-0">
         <Image
