@@ -1,6 +1,12 @@
 "use client";
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,11 +20,11 @@ const AuthModal = ({ children }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    confirmPassword: '',
-    fullName: '',
-    username: ''
+    email: "",
+    password: "",
+    confirmPassword: "",
+    fullName: "",
+    username: "",
   });
   const { toast } = useToast();
   const { signIn, signUp, loading } = useAuth();
@@ -31,7 +37,7 @@ const AuthModal = ({ children }) => {
           toast({
             title: "Password mismatch",
             description: "Passwords do not match. Please try again.",
-            variant: "destructive"
+            variant: "destructive",
           });
           return;
         }
@@ -54,23 +60,23 @@ const AuthModal = ({ children }) => {
       toast({
         title: "Authentication failed",
         description: "Please check your credentials and try again.",
-        variant: "destructive"
+        variant: "destructive",
       });
     }
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        {children}
-      </DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-md bg-background border border-border shadow-elegant">
         <DialogHeader className="text-center space-y-2">
           <DialogTitle className="text-2xl font-bold text-gradient">
             {isSignUp ? "Join Rakshini" : "Welcome Back"}
           </DialogTitle>
           <p className="text-muted-foreground">
-            {isSignUp ? "Empower yourself with our community" : "Sign in to your account"}
+            {isSignUp
+              ? "Empower yourself with our community"
+              : "Sign in to your account"}
           </p>
         </DialogHeader>
 
@@ -78,7 +84,9 @@ const AuthModal = ({ children }) => {
           {isSignUp && (
             <>
               <div className="space-y-2">
-                <Label htmlFor="name" className="text-sm font-medium">Full Name</Label>
+                <Label htmlFor="name" className="text-sm font-medium">
+                  Full Name
+                </Label>
                 <div className="relative">
                   <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -86,13 +94,17 @@ const AuthModal = ({ children }) => {
                     placeholder="Enter your full name"
                     className="pl-10 border-border focus:ring-primary"
                     value={formData.fullName}
-                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, fullName: e.target.value })
+                    }
                     required
                   />
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="username" className="text-sm font-medium">Username</Label>
+                <Label htmlFor="username" className="text-sm font-medium">
+                  Username
+                </Label>
                 <div className="relative">
                   <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -100,7 +112,9 @@ const AuthModal = ({ children }) => {
                     placeholder="Choose a username"
                     className="pl-10 border-border focus:ring-primary"
                     value={formData.username}
-                    onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, username: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -109,7 +123,9 @@ const AuthModal = ({ children }) => {
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="email" className="text-sm font-medium">Email</Label>
+            <Label htmlFor="email" className="text-sm font-medium">
+              Email
+            </Label>
             <div className="relative">
               <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
@@ -118,14 +134,18 @@ const AuthModal = ({ children }) => {
                 placeholder="Enter your email"
                 className="pl-10 border-border focus:ring-primary"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 required
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+            <Label htmlFor="password" className="text-sm font-medium">
+              Password
+            </Label>
             <div className="relative">
               <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
               <Input
@@ -134,7 +154,9 @@ const AuthModal = ({ children }) => {
                 placeholder="Enter your password"
                 className="pl-10 pr-10 border-border focus:ring-primary"
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
                 required
               />
               <button
@@ -142,14 +164,20 @@ const AuthModal = ({ children }) => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-3 text-muted-foreground hover:text-foreground"
               >
-                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
               </button>
             </div>
           </div>
 
           {isSignUp && (
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword" className="text-sm font-medium">Confirm Password</Label>
+              <Label htmlFor="confirmPassword" className="text-sm font-medium">
+                Confirm Password
+              </Label>
               <div className="relative">
                 <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                 <Input
@@ -158,15 +186,20 @@ const AuthModal = ({ children }) => {
                   placeholder="Confirm your password"
                   className="pl-10 border-border focus:ring-primary"
                   value={formData.confirmPassword}
-                  onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      confirmPassword: e.target.value,
+                    })
+                  }
                   required
                 />
               </div>
             </div>
           )}
 
-          <Button 
-            type="submit" 
+          <Button
+            type="submit"
             className="w-full gradient-primary text-white shadow-soft hover:shadow-elegant transition-all duration-300"
             disabled={loading}
           >
