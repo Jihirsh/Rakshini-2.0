@@ -1,7 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Clock, User, Calendar, Heart, MessageCircle, Share2, Bookmark } from "lucide-react";
+import {User, Heart, MessageCircle, Share2, Bookmark } from "lucide-react";
 import Navbar from "../../_components/Navbar";
 import Footer from "../../_components/Footer";
 import { useParams } from "next/navigation";
