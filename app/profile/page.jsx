@@ -17,13 +17,15 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/contexts/AuthContext";
+import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
 import Navbar from "../_components/Navbar";
 import Footer from "../_components/Footer";
 
 const Profile = () => {
-  const { user, loading } = useAuth();
+  const { data: session, status } = useSession();
+  const user = session?.user;
+  const loading = status === "loading";
   const { toast } = useToast();
   const [profile, setProfile] = useState(null);
   const [comments, setComments] = useState([]);
@@ -34,19 +36,17 @@ const Profile = () => {
     bio: "",
   });
 
-  // Mock data initialization
   useEffect(() => {
     if (user) {
-      // Initialize with mock profile data
+      // You can use user.name, user.email, user.image etc provided by Google OAuth
       const mockProfile = {
         id: "1",
-        username: "johndoe",
-        full_name: user.user_metadata?.full_name || "John Doe",
+        username: user.email?.split("@")[0] || "user",
+        full_name: user.name || "John Doe",
         bio: "This is a sample bio. Edit your profile to update this information.",
-        avatar_url: null,
+        avatar_url: user.image || null,
       };
 
-      // Mock comments data
       const mockComments = [
         {
           id: "1",
@@ -99,6 +99,7 @@ const Profile = () => {
     setIsEditing(false);
   };
 
+  const router = useRouter();
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
@@ -112,8 +113,6 @@ const Profile = () => {
       </div>
     );
   }
-
-  const router = useRouter();
   if (!user) {
     router.push("/");
     return null; // prevent rendering while redirecting
@@ -142,8 +141,17 @@ const Profile = () => {
               <CardHeader>
                 <div className="flex items-start justify-between">
                   <div className="flex items-center space-x-4">
-                    <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center">
-                      <User className="w-8 h-8 text-primary-one" />
+                    <div className="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center overflow-hidden">
+                      {profile?.avatar_url ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={profile.avatar_url}
+                          alt="User Avatar"
+                          className="w-full h-full object-cover rounded-full"
+                        />
+                      ) : (
+                        <User className="w-8 h-8 text-primary-one" />
+                      )}
                     </div>
                     <div>
                       <CardTitle className="text-2xl text-gradient">

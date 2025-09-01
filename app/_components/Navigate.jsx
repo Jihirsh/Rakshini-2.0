@@ -22,7 +22,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import AuthModal from "./AuthModal";
-import { useAuth } from "@/contexts/AuthContext";
+import { useSession, signOut } from "next-auth/react";
+// import { useAuth } from "@/contexts/AuthContext";
+
+
 
 const inikaFont = Inika({
   subsets: ["latin"],
@@ -58,8 +61,11 @@ const cardDetails = [
   },
 ];
 
+
+
 function Navigate() {
-  const { user, signOut } = useAuth();
+  const { data: session } = useSession();
+  const user = session?.user;
 
   return (
     <div className="w-full h-screen">

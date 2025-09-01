@@ -11,10 +11,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
 import AuthModal from "./AuthModal";
-import { useAuth } from "@/contexts/AuthContext";
+import { useSession, signOut } from "next-auth/react";
+// import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
-  const { user, signOut } = useAuth();
+  // const { user, signOut } = useAuth();
+  const { data: session } = useSession();
+  const user = session?.user;
   const [isOpen, setIsOpen] = useState(false);
 
   const navItems = [
@@ -63,7 +66,7 @@ const Navbar = () => {
                     </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={signOut}>
+                  <DropdownMenuItem onClick={() => signOut()}>
                     <LogOut className="w-4 h-4 mr-2" />
                     Sign Out
                   </DropdownMenuItem>
@@ -106,20 +109,43 @@ const Navbar = () => {
                 </a>
               ))}
               <div className="pt-4 space-y-2">
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="w-full justify-start"
-                >
-                  <User className="w-4 h-4 mr-2" />
-                  Sign In
-                </Button>
-                <Button
-                  size="sm"
-                  className="w-full gradient-primary text-white"
-                >
-                  Get Started
-                </Button>
+                {user ? (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full justify-start"
+                    onClick={() => {
+                      setIsOpen(false);
+                      signOut();
+                    }}
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign Out
+                  </Button>
+                ) : (
+                  <AuthModal>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="w-full justify-start"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      <User className="w-4 h-4 mr-2" />
+                      Sign In
+                    </Button>
+                  </AuthModal>
+                )}
+                {!user && (
+                  <AuthModal>
+                    <Button
+                      size="sm"
+                      className="w-full gradient-primary text-white"
+                      onClick={() => setIsOpen(false)}
+                    >
+                      Get Started
+                    </Button>
+                  </AuthModal>
+                )}
               </div>
             </div>
           </div>

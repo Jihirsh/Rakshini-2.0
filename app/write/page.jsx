@@ -9,13 +9,15 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Save, Eye, Image, Bold, Italic, List, Quote, Type, Upload, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAuth } from "@/contexts/AuthContext";
+import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
 import Navbar from "../_components/Navbar";
 import Footer from "../_components/Footer";
 
 const WriteBlog = () => {
-  const { user, loading } = useAuth();
+  const { data: session, status } = useSession();
+  const user = session?.user;         
+  const loading = status === "loading"; 
   const { toast } = useToast();
   const router = useRouter();
   const fileInputRef = useRef(null);
