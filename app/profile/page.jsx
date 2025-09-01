@@ -38,7 +38,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (user) {
-      // You can use user.name, user.email, user.image etc provided by Google OAuth
+      //use user.name, user.email, user.image etc provided by Google OAuth
       const mockProfile = {
         id: "1",
         username: user.email?.split("@")[0] || "user",
@@ -81,7 +81,7 @@ const Profile = () => {
   }, [user]);
 
   const handleSaveProfile = async () => {
-    // Mock save - in real app this would be an API call
+    // mock rn, in deployed app this would be an API call
     const updatedProfile = {
       ...profile,
       username: editForm.username,
@@ -115,7 +115,7 @@ const Profile = () => {
   }
   if (!user) {
     router.push("/");
-    return null; // prevent rendering while redirecting
+    return null; // this prevents rendering while redirecting
   }
 
   return (
