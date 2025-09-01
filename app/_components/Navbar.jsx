@@ -12,10 +12,8 @@ import {
 import Link from "next/link";
 import AuthModal from "./AuthModal";
 import { useSession, signOut } from "next-auth/react";
-// import { useAuth } from "@/contexts/AuthContext";
 
 const Navbar = () => {
-  // const { user, signOut } = useAuth();
   const { data: session } = useSession();
   const user = session?.user;
   const [isOpen, setIsOpen] = useState(false);

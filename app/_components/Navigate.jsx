@@ -23,8 +23,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import Link from "next/link";
 import AuthModal from "./AuthModal";
 import { useSession, signOut } from "next-auth/react";
-// import { useAuth } from "@/contexts/AuthContext";
-
 
 
 const inikaFont = Inika({
@@ -121,6 +119,8 @@ function Navigate() {
           height={685}
           alt="Picture of woman"
           className="opacity-40"
+          priority
+          style={{ width: "auto", height: "auto" }}
         />
       </div>
       <div className={`p-6 text-right ${inikaFont.className}`}>

@@ -41,7 +41,7 @@ const WriteBlog = () => {
 
     setUploading(true);
     
-    // Mock image upload - simulate delay
+    // mock image upload - simulate delay
     await new Promise(resolve => setTimeout(resolve, 1000));
     
     const imageUrl = URL.createObjectURL(file);
