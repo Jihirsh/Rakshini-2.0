@@ -120,7 +120,7 @@ function Navigate() {
           alt="Picture of woman"
           className="opacity-40"
           priority
-          style={{ width: "auto", height: "auto" }}
+          // style={{ width: "auto", height: "auto" }}
         />
       </div>
       <div className={`p-6 text-right ${inikaFont.className}`}>
