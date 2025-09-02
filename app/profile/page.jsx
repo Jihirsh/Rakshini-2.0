@@ -38,7 +38,7 @@ const Profile = () => {
 
   useEffect(() => {
     if (user) {
-      //use user.name, user.email, user.image etc provided by Google OAuth
+      // Use user.name, user.email, user.image etc provided by Google OAuth
       const mockProfile = {
         id: "1",
         username: user.email?.split("@")[0] || "user",
