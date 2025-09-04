@@ -271,7 +271,6 @@
 
 // export default Community;
 
-
 "use client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -291,7 +290,9 @@ const Community = () => {
   useEffect(() => {
     async function fetchPosts() {
       setLoading(true);
-      let url = `/api/posts?cat=${encodeURIComponent(selectedCategory)}&search=${encodeURIComponent(searchTerm)}`;
+      let url = `/api/posts?cat=${encodeURIComponent(
+        selectedCategory
+      )}&search=${encodeURIComponent(searchTerm)}`;
       const res = await fetch(url, { cache: "no-store" });
       const data = await res.json();
       setPosts(Array.isArray(data) ? data : []);
@@ -389,9 +390,11 @@ const Community = () => {
                           {/* Category and Read Time */}
                           <div className="flex items-center justify-between">
                             <span className="text-sm font-medium text-primary-one uppercase tracking-wider">
-                              {post.cat?.title}
+                              {post.category?.title}
                             </span>
-                            {/* You can add a field for readTime to your Post model if desired */}
+                            <span className="text-sm text-muted-foreground">
+                              {post.readTime ? `${post.readTime} min read` : ""}
+                            </span>
                           </div>
 
                           {/* Title */}
@@ -408,7 +411,7 @@ const Community = () => {
                           <div className="flex items-center justify-between pt-4 border-t border-border/50">
                             <div>
                               <p className="text-sm font-medium text-foreground">
-                                {post.user?.name || post.userEmail}
+                                {post.user?.name || post.user?.email}
                               </p>
                               <p className="text-xs text-muted-foreground">
                                 {new Date(post.createdAt).toLocaleDateString()}
