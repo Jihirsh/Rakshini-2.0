@@ -93,13 +93,17 @@ model Post {
 }
 
 model Comment {
-  id        String   @id @default(cuid()) @map("_id")
-  createdAt DateTime @default(now())
+  id        String    @id @default(cuid()) @map("_id")
+  createdAt DateTime  @default(now())
   desc      String
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
   postId    String
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post      @relation(fields: [postId], references: [id])
+  likes     Int       @default(0)
+  parentId  String?
+  parent    Comment?  @relation("CommentReplies", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies   Comment[] @relation("CommentReplies")
 }
 
 // Run in terminal: npx prisma generate -> npx prisma studio
