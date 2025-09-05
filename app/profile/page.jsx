@@ -30,6 +30,7 @@ const Profile = () => {
   const [profile, setProfile] = useState(null);
   const [comments, setComments] = useState([]);
   const [isEditing, setIsEditing] = useState(false);
+  const [blogs, setBlogs] = useState([]);
   const [editForm, setEditForm] = useState({
     username: "",
     full_name: "",
@@ -38,7 +39,6 @@ const Profile = () => {
 
   useEffect(() => {
     if (user) {
-      // Use user.name, user.email, user.image etc provided by Google OAuth
       const mockProfile = {
         id: "1",
         username: user.email?.split("@")[0] || "user",
@@ -46,37 +46,24 @@ const Profile = () => {
         bio: "This is a sample bio. Edit your profile to update this information.",
         avatar_url: user.image || null,
       };
-
-      const mockComments = [
-        {
-          id: "1",
-          content:
-            "Great article! Really enjoyed reading this perspective on women in tech.",
-          created_at: "2024-01-15T10:30:00Z",
-          blog_post_id: "1",
-          blog_posts: {
-            title: "Women in Technology: Breaking Barriers",
-          },
-        },
-        {
-          id: "2",
-          content:
-            "Thank you for sharing these insights about workplace wellness.",
-          created_at: "2024-01-10T14:20:00Z",
-          blog_post_id: "2",
-          blog_posts: {
-            title: "Wellness in the Workplace",
-          },
-        },
-      ];
-
       setProfile(mockProfile);
-      setComments(mockComments);
       setEditForm({
         username: mockProfile.username || "",
         full_name: mockProfile.full_name || "",
         bio: mockProfile.bio || "",
       });
+
+      fetch("/api/comments/user")
+        .then((res) => res.json())
+        .then((data) => {
+          if (Array.isArray(data)) setComments(data);
+        });
+
+      fetch("/api/blogs/user")
+        .then((res) => res.json())
+        .then((data) => {
+          if (Array.isArray(data)) setBlogs(data);
+        });
     }
   }, [user]);
 
@@ -263,8 +250,11 @@ const Profile = () => {
                             className="border-l-4 border-pink-200 pl-4 py-2"
                           >
                             <div className="flex items-center justify-between mb-2">
-                              <Badge variant="outline" className="text-xs border-pink-100">
-                                {comment.blog_posts?.title || "Blog Post"}
+                              <Badge
+                                variant="outline"
+                                className="text-xs border-pink-100"
+                              >
+                                {comment.post?.title || "Blog Post"}
                               </Badge>
                               <div className="flex items-center text-xs text-muted-foreground">
                                 <Calendar className="w-3 h-3 mr-1" />
@@ -287,15 +277,57 @@ const Profile = () => {
               <TabsContent value="blogs" className="space-y-4">
                 <Card className="shadow-soft border-border">
                   <CardHeader>
-                    <CardTitle>My Blog Posts</CardTitle>
+                    <CardTitle>My Blog Posts ({blogs.length})</CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-center py-8 text-muted-foreground">
-                      <Edit className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                      <p>You haven't written any blog posts yet.</p>
+                    {blogs.length === 0 ? (
+                      <div className="text-center py-8 text-muted-foreground">
+                        <Edit className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                        <p>You haven't written any blog posts yet.</p>
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
+                        {blogs.map((blog) => (
+                          <div
+                            key={blog.id}
+                            className="border-l-4 border-pink-200 pl-4 py-2"
+                          >
+                            <div className="flex items-center justify-between mb-2">
+                              <Badge
+                                variant="outline"
+                                className="text-xs border-pink-100"
+                              >
+                                {blog.category?.title || "Uncategorized"}
+                              </Badge>
+                              <div className="flex items-center text-xs text-muted-foreground">
+                                <Calendar className="w-3 h-3 mr-1" />
+                                {new Date(blog.createdAt).toLocaleDateString()}
+                              </div>
+                            </div>
+                            <h4 className="font-semibold text-lg mb-1">
+                              {blog.title}
+                            </h4>
+                            <p className="text-sm text-muted-foreground mb-2">
+                              {blog.desc}
+                            </p>
+                            <Link href={`/blogs/${blog.slug}`}>
+                              <Button
+                                size="sm"
+                                variant="link"
+                                className="p-0 text-primary"
+                              >
+                                Read More
+                              </Button>
+                            </Link>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    {/* Always show the write button */}
+                    <div className="flex justify-center mt-8">
                       <Link href="/write">
-                        <Button className="mt-4 gradient-primary text-white cursor-pointer">
-                          Write Your First Blog
+                        <Button className="gradient-primary text-white cursor-pointer">
+                          Write Your Blog
                         </Button>
                       </Link>
                     </div>

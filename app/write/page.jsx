@@ -1,12 +1,24 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Save, Eye, Image, Bold, Italic, List, Quote, Type, Upload, Loader2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Save,
+  Eye,
+  Image,
+  Bold,
+  Italic,
+  List,
+  Quote,
+  Type,
+  Upload,
+  Loader2,
+} from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -16,43 +28,52 @@ import Footer from "../_components/Footer";
 
 const WriteBlog = () => {
   const { data: session, status } = useSession();
-  const user = session?.user;         
-  const loading = status === "loading"; 
+  const user = session?.user;
+  const loading = status === "loading";
   const { toast } = useToast();
   const router = useRouter();
   const fileInputRef = useRef(null);
-  
+
   const [formData, setFormData] = useState({
     title: "",
     excerpt: "",
     content: "",
     tags: "",
-    featuredImage: null
+    featuredImage: null,
   });
-  
+
   const [isPreview, setIsPreview] = useState(false);
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [featuredImageUrl, setFeaturedImageUrl] = useState(null);
+
+  const [categories, setCategories] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState("");
+
+  useEffect(() => {
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then((data) => setCategories(data));
+  }, []);
 
   const handleImageUpload = async (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
     setUploading(true);
-    
+
     // mock image upload - simulate delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     const imageUrl = URL.createObjectURL(file);
     setFeaturedImageUrl(imageUrl);
     setFormData({ ...formData, featuredImage: file });
-    
+
     toast({
       title: "Image uploaded",
-      description: "Your featured image has been uploaded successfully."
+      description: "Your featured image has been uploaded successfully.",
     });
-    
+
     setUploading(false);
   };
 
@@ -64,13 +85,19 @@ const WriteBlog = () => {
     const end = textarea.selectionEnd;
     const selectedText = textarea.value.substring(start, end);
     const newText = before + selectedText + after;
-    
-    const newValue = textarea.value.substring(0, start) + newText + textarea.value.substring(end);
+
+    const newValue =
+      textarea.value.substring(0, start) +
+      newText +
+      textarea.value.substring(end);
     setFormData({ ...formData, content: newValue });
-    
+
     setTimeout(() => {
       textarea.focus();
-      textarea.setSelectionRange(start + before.length, start + before.length + selectedText.length);
+      textarea.setSelectionRange(
+        start + before.length,
+        start + before.length + selectedText.length
+      );
     }, 0);
   };
 
@@ -79,7 +106,7 @@ const WriteBlog = () => {
       toast({
         title: "Title required",
         description: "Please enter a title for your blog post.",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
@@ -88,26 +115,56 @@ const WriteBlog = () => {
       toast({
         title: "Content required",
         description: "Please write some content for your blog post.",
-        variant: "destructive"
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (!selectedCategoryId) {
+      toast({
+        title: "Category required",
+        description: "Please select a category for your blog post.",
+        variant: "destructive",
       });
       return;
     }
 
     setSaving(true);
-    
-    // Mock save
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    toast({
-      title: status === "published" ? "Blog published!" : "Draft saved!",
-      description:
-        status === "published"
-          ? "Your blog post has been published successfully."
-          : "Your draft has been saved successfully."
+
+    // For the image, use the featuredImageUrl as string (or handle actual uploads if needed)
+    const body = {
+      title: formData.title,
+      desc: formData.excerpt,
+      content: formData.content,
+      img: featuredImageUrl || "", // Replace with actual upload logic if needed
+      categoryId: selectedCategoryId,
+      tags: formData.tags,
+    };
+
+    const res = await fetch("/api/blogs", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
     });
+    const data = await res.json();
 
     setSaving(false);
-    router.push("/profile");
+
+    if (res.ok) {
+      toast({
+        title: status === "published" ? "Blog published!" : "Draft saved!",
+        description:
+          status === "published"
+            ? "Your blog post has been published successfully."
+            : "Your draft has been saved successfully.",
+      });
+      router.push("/profile");
+    } else {
+      toast({
+        title: "Error",
+        description: data.error || "Failed to save blog.",
+      });
+    }
   };
 
   if (loading) {
@@ -132,18 +189,21 @@ const WriteBlog = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
+
       <main className="pt-20">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           {/* Header */}
           <div className="flex items-center justify-between mb-8">
             <Link href="/profile">
-              <Button variant="ghost" className="text-muted-foreground hover:text-primary">
+              <Button
+                variant="ghost"
+                className="text-muted-foreground hover:text-primary"
+              >
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Back to Profile
               </Button>
             </Link>
-            
+
             <div className="flex items-center space-x-2">
               <Button
                 variant="outline"
@@ -159,7 +219,11 @@ const WriteBlog = () => {
                 disabled={saving}
                 className="cursor-pointer"
               >
-                {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+                {saving ? (
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                ) : (
+                  <Save className="w-4 h-4 mr-2" />
+                )}
                 Save Draft
               </Button>
               <Button
@@ -167,7 +231,9 @@ const WriteBlog = () => {
                 disabled={saving}
                 className="gradient-primary text-white cursor-pointer"
               >
-                {saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}
+                {saving ? (
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                ) : null}
                 Publish
               </Button>
             </div>
@@ -187,13 +253,15 @@ const WriteBlog = () => {
                       />
                     </div>
                   )}
-                  
+
                   <div>
                     <h1 className="text-3xl font-bold text-gradient mb-4">
                       {formData.title || "Your Blog Title"}
                     </h1>
                     {formData.excerpt && (
-                      <p className="text-lg text-muted-foreground mb-4">{formData.excerpt}</p>
+                      <p className="text-lg text-muted-foreground mb-4">
+                        {formData.excerpt}
+                      </p>
                     )}
                     {formData.tags && (
                       <div className="flex flex-wrap gap-2 mb-6">
@@ -205,7 +273,7 @@ const WriteBlog = () => {
                       </div>
                     )}
                   </div>
-                  
+
                   <div className="prose prose-lg max-w-none">
                     <div style={{ whiteSpace: "pre-wrap" }}>
                       {formData.content || "Start writing your blog content..."}
@@ -254,12 +322,16 @@ const WriteBlog = () => {
                         {uploading ? (
                           <div className="space-y-2">
                             <Loader2 className="w-8 h-8 mx-auto animate-spin text-primary" />
-                            <p className="text-muted-foreground">Uploading...</p>
+                            <p className="text-muted-foreground">
+                              Uploading...
+                            </p>
                           </div>
                         ) : (
                           <div className="space-y-2">
                             <Upload className="w-8 h-8 mx-auto text-muted-foreground" />
-                            <p className="text-muted-foreground">Click to upload featured image</p>
+                            <p className="text-muted-foreground">
+                              Click to upload featured image
+                            </p>
                           </div>
                         )}
                       </div>
@@ -281,13 +353,34 @@ const WriteBlog = () => {
                   <CardTitle>Write Your Blog Post</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-6">
+                  {/* Category Selector */}
+                  <div className="space-y-2">
+                    <Label htmlFor="category">Category *</Label>
+                    <select
+                      id="category"
+                      value={selectedCategoryId}
+                      onChange={(e) => setSelectedCategoryId(e.target.value)}
+                      className="border rounded px-3 py-2 w-full focus:outline-none"
+                      required
+                    >
+                      <option value="">Select a category</option>
+                      {categories.map((cat) => (
+                        <option key={cat.id} value={cat.id}>
+                          {cat.title}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
                   {/* Title */}
                   <div className="space-y-2">
                     <Label htmlFor="title">Title *</Label>
                     <Input
                       id="title"
                       value={formData.title}
-                      onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, title: e.target.value })
+                      }
                       placeholder="Enter an engaging title for your blog post"
                       className="text-lg"
                     />
@@ -299,7 +392,9 @@ const WriteBlog = () => {
                     <Textarea
                       id="excerpt"
                       value={formData.excerpt}
-                      onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, excerpt: e.target.value })
+                      }
                       placeholder="Write a brief description of your blog post..."
                       rows={3}
                     />
@@ -311,30 +406,62 @@ const WriteBlog = () => {
                     <div className="border border-input rounded-md">
                       {/* Formatting Toolbar */}
                       <div className="flex items-center space-x-1 p-2 border-b border-border bg-muted/20">
-                        <Button type="button" variant="ghost" size="sm" onClick={() => insertTextAtCursor("# ", "")}>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => insertTextAtCursor("# ", "")}
+                        >
                           <Type className="w-4 h-4" /> H1
                         </Button>
-                        <Button type="button" variant="ghost" size="sm" onClick={() => insertTextAtCursor("## ", "")}>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => insertTextAtCursor("## ", "")}
+                        >
                           <Type className="w-4 h-4" /> H2
                         </Button>
-                        <Button type="button" variant="ghost" size="sm" onClick={() => insertTextAtCursor("**", "**")}>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => insertTextAtCursor("**", "**")}
+                        >
                           <Bold className="w-4 h-4" />
                         </Button>
-                        <Button type="button" variant="ghost" size="sm" onClick={() => insertTextAtCursor("*", "*")}>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => insertTextAtCursor("*", "*")}
+                        >
                           <Italic className="w-4 h-4" />
                         </Button>
-                        <Button type="button" variant="ghost" size="sm" onClick={() => insertTextAtCursor("> ", "")}>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => insertTextAtCursor("> ", "")}
+                        >
                           <Quote className="w-4 h-4" />
                         </Button>
-                        <Button type="button" variant="ghost" size="sm" onClick={() => insertTextAtCursor("- ", "")}>
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => insertTextAtCursor("- ", "")}
+                        >
                           <List className="w-4 h-4" />
                         </Button>
                       </div>
-                      
+
                       <Textarea
                         id="content"
                         value={formData.content}
-                        onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                        onChange={(e) =>
+                          setFormData({ ...formData, content: e.target.value })
+                        }
                         placeholder="Start writing your amazing blog post..."
                         rows={15}
                         className="border-0 resize-none focus-visible:ring-0"
@@ -348,7 +475,9 @@ const WriteBlog = () => {
                     <Input
                       id="tags"
                       value={formData.tags}
-                      onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, tags: e.target.value })
+                      }
                       placeholder="Enter tags separated by commas (e.g., health, wellness, lifestyle)"
                     />
                   </div>
