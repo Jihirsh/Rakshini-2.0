@@ -411,7 +411,7 @@ const Community = () => {
                           <div className="flex items-center justify-between pt-4 border-t border-border/50">
                             <div>
                               <p className="text-sm font-medium text-foreground">
-                                {post.user?.name || post.user?.email}
+                                {post.author || "Unknown Author"}
                               </p>
                               <p className="text-xs text-muted-foreground">
                                 {new Date(post.createdAt).toLocaleDateString()}
@@ -436,6 +436,7 @@ const Community = () => {
                   size="lg"
                   className="gradient-primary text-white px-8 py-4 shadow-soft"
                 >
+                  {/* When this button is clicked, more articles should load below it */}
                   Load More Articles
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>

@@ -82,6 +82,7 @@ model Post {
   desc       String
   img        String?
   views      Int       @default(0)
+  author     String?
   categoryId String
   category   Category  @relation(fields: [categoryId], references: [id])
   userId     String
