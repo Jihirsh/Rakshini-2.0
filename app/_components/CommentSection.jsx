@@ -15,7 +15,7 @@ const CommentSection = ({ postId }) => {
   const [newComment, setNewComment] = useState("");
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [menuOpenId, setMenuOpenId] = useState(null); // track which comment's menu is open
+  const [menuOpenId, setMenuOpenId] = useState(null);
   const [editingId, setEditingId] = useState(null);
   const [editValue, setEditValue] = useState("");
 
