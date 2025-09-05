@@ -1,7 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { NextResponse } from "next/server";
 
-export const GET = async (req, { params }) => {
+export const GET = async (req, context) => {
+  const params = await context.params;
   const { slug } = params;
   try {
     const post = await prisma.post.findUnique({

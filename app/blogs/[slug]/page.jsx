@@ -51,13 +51,11 @@ const BlogPost = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-
-      {/* Main Article */}
+      
       <article className="pb-0">
-        {/* Article Header */}
         <header className="px-4 sm:px-6 mb-12">
           <div className="pt-24 max-w-3xl mx-auto">
-            {/* Title */}
+            
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-8 tracking-tight">
               {post.title}
             </h1>
