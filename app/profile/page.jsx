@@ -327,7 +327,7 @@ const Profile = () => {
                     <div className="flex justify-center mt-8">
                       <Link href="/write">
                         <Button className="gradient-primary text-white cursor-pointer">
-                          Write Your Blog
+                          Write a New Blog
                         </Button>
                       </Link>
                     </div>
