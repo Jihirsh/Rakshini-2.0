@@ -8,7 +8,6 @@ export const POST = async (req) => {
     return NextResponse.json({ error: "No file provided" }, { status: 400 });
   }
 
-  // Prepare form data for Cloudinary
   const formData = new FormData();
   formData.append("file", file);
   formData.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET);
