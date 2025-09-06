@@ -310,15 +310,56 @@ const Profile = () => {
                             <p className="text-sm text-muted-foreground mb-2">
                               {blog.desc}
                             </p>
-                            <Link href={`/blogs/${blog.slug}`}>
+                            <div className="flex justify-between">
+                              <Link href={`/blogs/${blog.slug}`}>
+                                <Button
+                                  size="sm"
+                                  variant="link"
+                                  className="p-0 text-primary"
+                                >
+                                  Read More
+                                </Button>
+                              </Link>
                               <Button
                                 size="sm"
-                                variant="link"
-                                className="p-0 text-primary"
+                                variant="destructive"
+                                className="ml-2"
+                                onClick={async () => {
+                                  if (
+                                    !confirm(
+                                      "Are you sure you want to delete this blog post?"
+                                    )
+                                  )
+                                    return;
+                                  const res = await fetch(
+                                    `/api/blogs/${blog.id}`,
+                                    {
+                                      method: "DELETE",
+                                    }
+                                  );
+                                  const data = await res.json();
+                                  if (res.ok) {
+                                    toast({
+                                      title: "Blog deleted!",
+                                      description:
+                                        "Your blog post has been deleted.",
+                                    });
+                                    setBlogs(
+                                      blogs.filter((b) => b.id !== blog.id)
+                                    );
+                                  } else {
+                                    toast({
+                                      title: "Error",
+                                      description:
+                                        data.error || "Failed to delete blog.",
+                                      variant: "destructive",
+                                    });
+                                  }
+                                }}
                               >
-                                Read More
+                                Delete
                               </Button>
-                            </Link>
+                            </div>
                           </div>
                         ))}
                       </div>

@@ -62,17 +62,30 @@ const WriteBlog = () => {
 
     setUploading(true);
 
-    // mock image upload - simulate delay
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    const formData = new FormData();
+    formData.append("file", file);
 
-    const imageUrl = URL.createObjectURL(file);
-    setFeaturedImageUrl(imageUrl);
-    setFormData({ ...formData, featuredImage: file });
-
-    toast({
-      title: "Image uploaded",
-      description: "Your featured image has been uploaded successfully.",
+    const res = await fetch("/api/upload", {
+      method: "POST",
+      body: formData,
     });
+
+    const data = await res.json();
+
+    if (res.ok && data.url) {
+      setFeaturedImageUrl(data.url);
+      setFormData({ ...formData, featuredImage: file });
+      toast({
+        title: "Image uploaded",
+        description: "Your featured image has been uploaded to Cloudinary.",
+      });
+    } else {
+      toast({
+        title: "Image upload failed",
+        description: data.error || "Error uploading image",
+        variant: "destructive",
+      });
+    }
 
     setUploading(false);
   };
