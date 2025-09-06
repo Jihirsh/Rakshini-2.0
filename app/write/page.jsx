@@ -25,6 +25,7 @@ import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
 import Navbar from "../_components/Navbar";
 import Footer from "../_components/Footer";
+import ReactMarkdown from "react-markdown";
 
 const WriteBlog = () => {
   const { data: session, status } = useSession();
@@ -288,9 +289,9 @@ const WriteBlog = () => {
                   </div>
 
                   <div className="prose prose-lg max-w-none">
-                    <div style={{ whiteSpace: "pre-wrap" }}>
+                    <ReactMarkdown>
                       {formData.content || "Start writing your blog content..."}
-                    </div>
+                    </ReactMarkdown>
                   </div>
                 </div>
               </CardContent>
